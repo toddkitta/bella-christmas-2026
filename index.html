@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operation: Vinyl Archeologist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .font-mono {
+            font-family: 'Courier Prime', monospace;
+        }
+
+        /* Glitch effect for the header */
+        .glitch-wrapper {
+            position: relative;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(16, 185, 129, 0.1) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100%; }
+        }
+
+        .checkbox-wrapper input:checked + div {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+        
+        .checkbox-wrapper input:checked + div svg {
+            display: block;
+        }
+
+        .hidden-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .fade-in {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Ambient Background Elements -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0f172a] to-black opacity-80"></div>
+        <div class="scanline"></div>
+    </div>
+
+    <!-- START SCREEN (Briefing) -->
+    <main id="start-screen" class="relative z-10 flex-grow flex flex-col items-center justify-center p-6 text-center h-screen">
+        <div class="max-w-md w-full border border-emerald-500/30 bg-slate-900/90 p-8 rounded-xl shadow-[0_0_50px_rgba(16,185,129,0.1)] backdrop-blur-sm">
+            <div class="mb-6 text-emerald-500">
+                <i class="fas fa-record-vinyl text-6xl animate-spin-slow" style="animation-duration: 10s;"></i>
+            </div>
+            <h1 class="text-3xl font-bold mb-2 tracking-tight text-white">PROJECT: VINYL</h1>
+            <p class="font-mono text-emerald-400 text-sm mb-6 typing-effect">>> ENCRYPTED TRANSMISSION RECEIVED</p>
+            
+            <div class="text-slate-300 text-left mb-8 space-y-4 font-mono text-sm border-l-2 border-emerald-500/50 pl-4">
+                <p>TO: SPECIAL AGENT BELLA</p>
+                <p>FROM: HQ (DAD)</p>
+                <p>SUBJECT: OPERATION ARCHEOLOGIST</p>
+                <p>STATUS: PENDING ACCEPTANCE</p>
+            </div>
+
+            <button onclick="acceptMission()" class="group w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg shadow-emerald-900/50 flex items-center justify-center gap-3">
+                <i class="fas fa-fingerprint text-lg"></i>
+                <span>DECRYPT MISSION DOSSIER</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- MISSION DASHBOARD (Hidden initially) -->
+    <main id="mission-dashboard" class="hidden-section relative z-10 flex-col max-w-2xl mx-auto p-4 pb-24 w-full">
+        
+        <!-- Header -->
+        <header class="flex items-center justify-between py-6 border-b border-slate-800 mb-6">
+            <div>
+                <h2 class="text-xl font-bold text-white">MISSION CONTROL</h2>
+                <div class="flex items-center gap-2 text-xs font-mono text-emerald-500">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    ACTIVE
+                </div>
+            </div>
+            <div class="text-right">
+                <p class="text-xs text-slate-400 uppercase tracking-widest">Available Funds</p>
+                <p class="text-2xl font-bold text-emerald-400 font-mono">$111.00</p>
+            </div>
+        </header>
+
+        <!-- Briefing Card -->
+        <section class="mb-8">
+            <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700">
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <i class="fas fa-info-circle"></i> Objective
+                </h3>
+                <p class="text-slate-200 leading-relaxed">
+                    Your objective is to traverse the St. Louis audio landscape. You have been granted a budget of <strong>$111</strong>. Use it wisely. Complete at least <strong>4 of the 6 protocols</strong> below to secure mission success.
+                </p>
+            </div>
+        </section>
+
+        <!-- Locations -->
+        <section class="mb-8">
+            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <i class="fas fa-map-marker-alt"></i> Target Locations
+            </h3>
+            
+            <div class="grid gap-3">
+                <!-- Loc 1 -->
+                <div class="bg-slate-900 rounded-lg p-4 border border-slate-700 flex justify-between items-center group hover:border-emerald-500/50 transition-colors">
+                    <div>
+                        <h4 class="font-bold text-white">Vintage Vinyl</h4>
+                        <p class="text-xs text-slate-400 font-mono">The Loop // Primary Target</p>
+                    </div>
+                    <a href="https://maps.google.com/?q=Vintage+Vinyl+St+Louis" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 p-3 rounded-full transition-colors">
+                        <i class="fas fa-location-arrow"></i>
+                    </a>
+                </div>
+
+                <!-- AND/OR Divider -->
+                <div class="text-center font-mono text-xs text-slate-500">
+                    - AND / OR -
+                </div>
+
+                <!-- Loc 2 -->
+                <div class="bg-slate-900 rounded-lg p-4 border border-slate-700 flex justify-between items-center group hover:border-emerald-500/50 transition-colors">
+                    <div>
+                        <h4 class="font-bold text-white">Euclid Records</h4>
+                        <p class="text-xs text-slate-400 font-mono">Webster Groves // Jazz & Soul Sector</p>
+                    </div>
+                    <a href="https://maps.google.com/?q=Euclid+Records+St+Louis" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 p-3 rounded-full transition-colors">
+                        <i class="fas fa-location-arrow"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Checklist -->
+        <section class="mb-12">
+            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <i class="fas fa-list-check"></i> Protocols (Select 4)
+            </h3>
+            
+            <div class="space-y-3" id="checklist-container">
+                <!-- JS generates items here -->
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mt-6 bg-slate-800 rounded-full h-2 w-full overflow-hidden">
+                <div id="progress-bar" class="bg-emerald-500 h-full w-0 transition-all duration-500 ease-out"></div>
+            </div>
+            <p id="progress-text" class="text-center text-xs font-mono text-emerald-500 mt-2">0/4 PROTOCOLS COMPLETE</p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-500 text-xs font-mono pb-8">
+            <p>SECURE CHANNEL ESTABLISHED</p>
+            <p>GOOD LUCK, AGENT.</p>
+        </footer>
+
+    </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-slate-900 border border-emerald-500 p-8 rounded-xl text-center max-w-sm mx-4 transform scale-90 transition-transform duration-300">
+            <div class="text-emerald-500 text-5xl mb-4">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-2">MISSION ACCOMPLISHED</h2>
+            <p class="text-slate-300 mb-6">Excellent work. We knew you were up to the challenge.</p>
+            <button onclick="closeModal()" class="bg-emerald-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-emerald-500">Dismiss</button>
+        </div>
+    </div>
+
+    <script>
+        // Mission Data
+        const challenges = [
+            {
+                id: 1,
+                title: "Six Degrees of Separation",
+                desc: "Find an album by a musician who played backup for one of your favorite artists."
+            },
+            {
+                id: 2,
+                title: "The Sample Source",
+                desc: "Find an old Jazz/Soul record that was sampled in a modern song you love."
+            },
+            {
+                id: 3,
+                title: "Birth Year Artifact",
+                desc: "Secure one record released the exact year you were born."
+            },
+            {
+                id: 4,
+                title: "Blind Date",
+                desc: "Purchase one album based SOLELY on the cover art. No Googling allowed."
+            },
+            {
+                id: 5,
+                title: "The Local Legend",
+                desc: "Find a record by a St. Louis native (Chuck Berry, SZA, Nelly, Uncle Tupelo, etc)."
+            },
+            {
+                id: 6,
+                title: "The Genre Bend",
+                desc: "Ask a clerk for a recommendation in a genre you think you hate. Buy it."
+            }
+        ];
+
+        // Init
+        function init() {
+            const container = document.getElementById('checklist-container');
+            
+            challenges.forEach(item => {
+                const el = document.createElement('label');
+                el.className = 'checkbox-wrapper block cursor-pointer group';
+                el.innerHTML = `
+                    <div class="relative flex items-start p-4 rounded-lg border border-slate-700 bg-slate-800/30 hover:bg-slate-800 transition-all">
+                        <input type="checkbox" class="peer sr-only" onchange="updateProgress()">
+                        <div class="mt-1 h-5 w-5 flex-shrink-0 rounded border border-slate-600 bg-slate-900 transition-colors mr-4 flex items-center justify-center">
+                            <svg class="hidden h-3 w-3 text-slate-900 fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
+                        </div>
+                        <div>
+                            <span class="block text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">${item.title}</span>
+                            <span class="block text-xs text-slate-400 mt-1">${item.desc}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        function acceptMission() {
+            const startScreen = document.getElementById('start-screen');
+            const dashboard = document.getElementById('mission-dashboard');
+            
+            startScreen.style.opacity = '0';
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+                dashboard.style.display = 'flex';
+                // Trigger reflow
+                void dashboard.offsetWidth; 
+                dashboard.classList.add('fade-in');
+            }, 500);
+        }
+
+        function updateProgress() {
+            const inputs = document.querySelectorAll('input[type="checkbox"]');
+            const checked = Array.from(inputs).filter(i => i.checked).length;
+            const percentage = Math.min((checked / 4) * 100, 100);
+            
+            const bar = document.getElementById('progress-bar');
+            const text = document.getElementById('progress-text');
+            
+            bar.style.width = percentage + '%';
+            
+            if (checked >= 4) {
+                text.innerText = "OBJECTIVES COMPLETE (" + checked + "/6)";
+                text.classList.add('text-emerald-400', 'font-bold');
+                
+                // Show modal if not shown before
+                if (!window.hasShownSuccess) {
+                    showSuccess();
+                    window.hasShownSuccess = true;
+                }
+            } else {
+                text.innerText = checked + "/4 PROTOCOLS COMPLETE";
+            }
+        }
+
+        function showSuccess() {
+            const modal = document.getElementById('success-modal');
+            modal.classList.remove('hidden');
+            // Trigger reflow
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('success-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Run Init
+        init();
+
+    </script>
+</body>
+</html>
