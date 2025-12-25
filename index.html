@@ -170,39 +170,6 @@
                 </div>
             </div>
         </section>
-        
-        <!-- SPY TOOLS (Gemini AI) -->
-        <section class="mb-8">
-            <h3 class="text-sm font-bold text-emerald-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                <i class="fas fa-microchip"></i> Field Tools [Beta]
-            </h3>
-
-            <!-- Tool 1: Asset Analyzer -->
-            <div class="bg-slate-900/80 rounded-lg p-4 border border-emerald-500/30 mb-4">
-                <label class="block text-xs font-mono text-emerald-500 mb-2 uppercase">>> Asset Analyzer (Artist/Album)</label>
-                <div class="flex gap-2 mb-2">
-                    <input type="text" id="asset-input" placeholder="e.g., Pink Floyd or SZA" class="flex-grow bg-slate-800 border border-slate-700 text-white text-sm rounded px-3 py-2 focus:outline-none focus:border-emerald-500 font-mono">
-                    <button onclick="analyzeAsset()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 rounded text-xs font-bold transition-colors flex items-center gap-2">
-                        ✨ SCAN
-                    </button>
-                </div>
-                <div id="asset-output" class="hidden terminal-output"></div>
-            </div>
-
-            <!-- Tool 2: Tactical Support -->
-            <div class="bg-slate-900/80 rounded-lg p-4 border border-emerald-500/30">
-                <label class="block text-xs font-mono text-emerald-500 mb-2 uppercase">>> Tactical Support (Need a Hint?)</label>
-                <div class="flex gap-2 mb-2">
-                    <select id="hint-selector" class="flex-grow bg-slate-800 border border-slate-700 text-white text-sm rounded px-3 py-2 focus:outline-none focus:border-emerald-500 font-mono">
-                        <!-- Populated by JS -->
-                    </select>
-                    <button onclick="getHint()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 rounded text-xs font-bold transition-colors flex items-center gap-2 whitespace-nowrap">
-                        ✨ INTEL
-                    </button>
-                </div>
-                <div id="hint-output" class="hidden terminal-output"></div>
-            </div>
-        </section>
 
         <!-- The Checklist -->
         <section class="mb-12">
@@ -219,6 +186,40 @@
                 <div id="progress-bar" class="bg-emerald-500 h-full w-0 transition-all duration-500 ease-out"></div>
             </div>
             <p id="progress-text" class="text-center text-xs font-mono text-emerald-500 mt-2">0/4 PROTOCOLS COMPLETE</p>
+        </section>
+        
+        <!-- SPY TOOLS (Gemini AI) -->
+        <section class="mb-8">
+            <h3 class="text-sm font-bold text-emerald-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <i class="fas fa-microchip"></i> Field Tools
+            </h3>
+
+            <!-- Tool 1: Asset Analyzer -->
+            <div class="bg-slate-900/80 rounded-lg p-4 border border-emerald-500/30 mb-4">
+                <label class="block text-xs font-mono text-emerald-500 mb-2 uppercase">>> Asset Analyzer (Artist/Album)</label>
+                <div class="flex gap-2 mb-2">
+                    <input type="text" id="asset-input" placeholder="e.g., Pink Floyd or SZA" class="flex-1 min-w-0 bg-slate-800 border border-slate-700 text-white text-sm rounded px-3 py-2 focus:outline-none focus:border-emerald-500 font-mono">
+                    <button onclick="analyzeAsset()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 rounded text-xs font-bold transition-colors flex items-center gap-2">
+                        ✨ SCAN
+                    </button>
+                </div>
+                <div id="asset-output" class="hidden terminal-output"></div>
+            </div>
+
+            <!-- Tool 2: Tactical Support -->
+            <div class="bg-slate-900/80 rounded-lg p-4 border border-emerald-500/30">
+                <label class="block text-xs font-mono text-emerald-500 mb-2 uppercase">>> Tactical Support (Need a Hint?)</label>
+                <div class="flex gap-2 mb-2">
+                    <!-- Added min-w-0 and flex-1 to prevent overflow on mobile -->
+                    <select id="hint-selector" class="flex-1 min-w-0 bg-slate-800 border border-slate-700 text-white text-sm rounded px-3 py-2 focus:outline-none focus:border-emerald-500 font-mono">
+                        <!-- Populated by JS -->
+                    </select>
+                    <button onclick="getHint()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 rounded text-xs font-bold transition-colors flex items-center gap-2 whitespace-nowrap">
+                        ✨ INTEL
+                    </button>
+                </div>
+                <div id="hint-output" class="hidden terminal-output"></div>
+            </div>
         </section>
 
         <!-- Footer -->
